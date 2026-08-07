@@ -4,7 +4,7 @@ SOURCE_BASE="https://github.com/migrationPOCAction"
 TARGET_BASE="https://github.com/migrationPOCActiontrial"
 
 repos=(
-  repo1
+  repo2
 )
 
 for repo in "${repos[@]}"

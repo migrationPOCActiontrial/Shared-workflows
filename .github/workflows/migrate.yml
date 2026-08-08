@@ -11,8 +11,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Configure Git Authentication
+        run: |
+          git config --global url."https://daksh03:${{ secrets.GIT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+
       - name: Make Script executable
         run: chmod +x scripts/migrate.sh
 
       - name: Run migration script
-        run: ./scripts/migrate.sh "${{ secrets.GIT_TOKEN }}"
+        run: ./scripts/migrate.sh

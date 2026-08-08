@@ -1,16 +1,10 @@
 #!/bin/bash
 
-set -e
-
-GIT_TOKEN="$1"
-
-git config --global url."https://daksh03:${GIT_TOKEN}@github.com".insteadOf "https://github.com"
-
 SOURCE_BASE="https://github.com/migrationPOCAction"
 TARGET_BASE="https://github.com/migrationPOCActiontrial"
 
 repos=(
-  repo1
+  repo5
 )
 
 for repo in "${repos[@]}"

@@ -32,4 +32,4 @@ jobs:
       - name: Run Verification
         if: ${{ inputs.action == 'verify' }}
         run: |
-          python3 scripts/verifymigration.py
+          python3 scripts/verify_migration.py

@@ -2,6 +2,14 @@ name: Migrate Repos
 
 on:
   workflow_dispatch:
+  inputs:
+    action:
+      description: "Select operation to perform"
+      required: true
+      type: choice
+      options:
+        - "migrate"
+        - "verify"
 
 jobs:
   migrate:
@@ -13,10 +21,15 @@ jobs:
 
       - name: Configure Git Authentication
         run: |
-          git config --global url."https://daksh03:${{ secrets.GIT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+          git config --global url."https://daksh03:${{secrets.GIT_TOKEN }}@github.com/".insteadOf "https://github.com/"
 
-      - name: Make Script executable
-        run: chmod +x scripts/migrate.sh
+      - name: Run Migration
+        if: ${{ inputs.action == 'migrate' }}
+        run: |
+          chmod +x ./scripts/migrate.sh
+          ./scripts/migrate.sh
 
-      - name: Run migration script
-        run: ./scripts/migrate.sh
+      - name: Run Verification
+        if: ${{ inputs.action == 'verify' }}
+        run: |
+          python3 scripts/verifymigration.py

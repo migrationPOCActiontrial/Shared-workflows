@@ -5,8 +5,7 @@ SOURCE_BASE="https://github.com/migrationPOCAction"
 TARGET_BASE="https://github.com/migrationPOCActiontrial"
 
 REPOS = [
-    "repo1",
-    "repo2"
+    "repo5"
 ]
 
 def run_command(command):

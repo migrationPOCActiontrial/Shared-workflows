@@ -18,28 +18,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Configure Git Authentication
+        run: |
+          git config --global url."https://daksh03:${{ secrets.GIT_TOKEN }}@github.com/".insteadOf "https://github.com/"
 
       - name: Test Git Access
         if: ${{ inputs.action == 'verify' }}
-        env:
-          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
-          AUTH=$(printf "x-access-token:%s" "$GIT_TOKEN" | base64 -w 0)
-
-          git -c http.extraheader="AUTHORIZATION: basic $AUTH" \
-            ls-remote https://github.com/migrationPOCActiontrial/repo5.git
+          git ls-remote https://github.com/migrationPOCActiontrial/repo5.git
 
       - name: Run Migration
         if: ${{ inputs.action == 'migrate' }}
-        env:
-          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
           chmod +x ./scripts/migrate.sh
           ./scripts/migrate.sh
 
       - name: Run Verification
         if: ${{ inputs.action == 'verify' }}
-        env:
-          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
           python3 scripts/verify_migration.py

@@ -26,7 +26,8 @@ jobs:
           git config --global credential.helper store
           printf "https://daksh03:%s@github.com\n" "$GIT_TOKEN" > ~/.git-credentials
 
-      - name: Test Git ACcess
+      - name: Test Git Access
+        if: ${{ inputs.action == 'verify' }}
         run: |
           git ls-remote https://github.com/migrationPOCActiontrial/repo5.git
 
@@ -34,7 +35,7 @@ jobs:
         if: ${{ inputs.action == 'migrate' }}
         run: |
           chmod +x ./scripts/migrate.sh
-          ./scripts/migrate.sh "${{ secrets.GIT_TOKEN }}"
+          ./scripts/migrate.sh
 
       - name: Run Verification
         if: ${{ inputs.action == 'verify' }}

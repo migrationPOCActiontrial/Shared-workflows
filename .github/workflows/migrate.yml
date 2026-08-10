@@ -23,11 +23,6 @@ jobs:
         run: |
           git config --global url."https://daksh03:${{ secrets.GIT_TOKEN }}@github.com/".insteadOf "https://github.com/"
 
-      - name: Test Git Access
-        if: ${{ inputs.action == 'verify' }}
-        run: |
-          git ls-remote https://github.com/migrationPOCActiontrial/repo5.git
-
       - name: Run Migration
         if: ${{ inputs.action == 'migrate' }}
         run: |

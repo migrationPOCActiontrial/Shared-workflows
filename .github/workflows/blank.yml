@@ -1,4 +1,4 @@
-name: Migrate Repos
+name: Verify Repos
 
 on:
   workflow_dispatch:

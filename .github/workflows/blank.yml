@@ -19,18 +19,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check Token
-        run: |
-          if [ -z "${{ secrets.GIT_TOKEN }}" ]; then
-            echo "GIT_TOKEN secret is not set. Please set it in the repository settings."
-            exit 1
-          else
-            echo "GIT_TOKEN secret is set."
-          fi
-
       - name: Configure Git Authentication
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
-          git config --global url."https://daksh03:${{ secrets.GIT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+          git config --global credential.helper store
+          printf "https://daksh03:%s@github.com\n" "$GIT_TOKEN" > ~/.git-credentials
 
       - name: Test Git ACcess
         run: |

@@ -26,6 +26,16 @@ jobs:
           git config --global credential.helper store
           printf "https://daksh03:%s@github.com\n" "$GIT_TOKEN" > ~/.git-credentials
 
+      - name: Test PAT Access
+        if: ${{ inputs.action == 'verify' }}
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+        run: |
+          curl -sS \
+            -H "Authorization: Bearer $GIT_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/migrationPOCActiontrial/repo5
+
       - name: Test Git Access
         if: ${{ inputs.action == 'verify' }}
         run: |

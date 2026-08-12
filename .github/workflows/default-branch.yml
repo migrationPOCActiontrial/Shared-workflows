@@ -1,0 +1,24 @@
+name: Set Default Branch
+
+on:
+  workflow_dispatch:
+
+jobs:
+  set-default-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Configure Git Authentication
+        run: |
+          git config --global url."https://daksh03:${{ secrets.GIT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+
+      - name: Run Default Branch Script
+        run: |
+          chmod +x ./scripts/set-default-branch.sh
+          ./scripts/set-default-branch.sh "${{ secrets.GIT_TOKEN }}"

@@ -10,6 +10,10 @@ repos=(
     notification-service
     spring-boot-inventory-system
     payment-management-service
+    spring-boot-product-catalog
+    spring-boot-demo-project
+    spring-boot-user-management
+    unique-springboot-repo
 )
 
 for repo in "${repos[@]}"

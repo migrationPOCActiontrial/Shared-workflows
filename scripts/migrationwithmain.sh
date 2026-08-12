@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 SOURCE_BASE="https://github.com/migrationPOCAction"
 TARGET_BASE="https://github.com/migrationPOCActiontrial"

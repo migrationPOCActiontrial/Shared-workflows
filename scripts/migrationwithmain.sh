@@ -6,8 +6,10 @@ TARGET_BASE="https://github.com/migrationPOCActiontrial"
 GIT_TOKEN="$1"
 
 repos=(
-    spring-boot-inventory-system
-    notification-service
+    spring-boot-demo-project
+    agent-test-1
+    spring-boot-product-catalog
+    spring-boot-order-service
 )
 
 for repo in "${repos[@]}"

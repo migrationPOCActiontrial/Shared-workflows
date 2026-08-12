@@ -5,7 +5,11 @@ SOURCE_BASE = "https://github.com/migrationPOCAction"
 TARGET_BASE = "https://github.com/migrationPOCActiontrial"
 
 REPOS = [
-    "repo5"
+    "spring-boot-inventory-system",
+    "payment-management-service",
+    "unique-springboot-repo",
+    "spring-boot-user-management",
+    "notification-service"
 ]
 
 

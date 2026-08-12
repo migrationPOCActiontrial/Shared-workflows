@@ -6,6 +6,9 @@ TARGET_BASE="https://github.com/migrationPOCActiontrial"
 GIT_TOKEN="$1"
 
 repos=(
+    spring-boot-demo-project
+    agent-test-1
+    spring-boot-product-catalog
     spring-boot-order-service
 )
 
@@ -25,7 +28,7 @@ do
 
     rm -rf "${repo}.git"
 
-    curl -sS -X PATCH \
+    curl -sS -w "\nHTTP Status: %{http_code}\n" -X PATCH \
       -H "Accept: application/vnd.github+json" \
       -H "Authorization: Bearer ${GIT_TOKEN}" \
       -H "X-GitHub-Api-Version: 2022-11-28" \

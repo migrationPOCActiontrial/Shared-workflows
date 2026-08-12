@@ -29,7 +29,7 @@ jobs:
         if: ${{ inputs.action == 'migrate' }}
         run: |
           chmod +x ./scripts/migrate.sh
-          ./scripts/migrate.sh
+          ./scripts/migrate.sh "${{ secrets.GIT_TOKEN }}"
 
       - name: Run Verification
         if: ${{ inputs.action == 'verify' }}

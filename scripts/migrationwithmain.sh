@@ -7,9 +7,6 @@ GIT_TOKEN="$1"
 
 repos=(
     spring-boot-inventory-system
-    payment-management-service
-    unique-springboot-repo
-    spring-boot-user-management
     notification-service
 )
 

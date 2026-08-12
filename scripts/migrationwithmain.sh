@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 SOURCE_BASE="https://github.com/migrationPOCAction"
 TARGET_BASE="https://github.com/migrationPOCActiontrial"
@@ -7,10 +6,10 @@ TARGET_BASE="https://github.com/migrationPOCActiontrial"
 GIT_TOKEN="$1"
 
 repos=(
+    spring-boot-demo-project
+    agent-test-1
+    spring-boot-product-catalog
     spring-boot-order-service
-    notification-service
-    spring-boot-inventory-system
-    payment-management-service
 )
 
 for repo in "${repos[@]}"
@@ -38,5 +37,21 @@ do
       "https://api.github.com/repos/migrationPOCActiontrial/${repo}" \
       -d '{"default_branch":"main"}'
 
-    echo "$repo migrated successfully"
+    echo "Checking default branch immediately after PATCH..."
+
+    curl -sS \
+      -H "Authorization: Bearer ${GIT_TOKEN}" \
+      -H "Accept: application/vnd.github+json" \
+      -H "X-GitHub-Api-Version: 2022-11-28" \
+      "https://api.github.com/repos/migrationPOCActiontrial/${repo}" \
+      | grep default_branch
+
+    echo "Checking branches in target repository..."
+
+    git ls-remote "$TARGET_BASE/${repo}.git" "refs/heads/*"
+
+    echo "----------------------------------------"
+    echo "${repo} migration completed"
+    echo "----------------------------------------"
+
 done

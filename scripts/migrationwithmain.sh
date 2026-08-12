@@ -7,6 +7,9 @@ GIT_TOKEN="$1"
 
 repos=(
     spring-boot-order-service
+    notification-service
+    spring-boot-inventory-system
+    payment-management-service
 )
 
 for repo in "${repos[@]}"
@@ -24,6 +27,8 @@ do
     cd ..
 
     rm -rf "${repo}.git"
+
+    echo "Setting default branch to 'main' for ${repo} ..."
 
     curl -sS -w "\nHTTP Status: %{http_code}\n" -X PATCH \
       -H "Accept: application/vnd.github+json" \

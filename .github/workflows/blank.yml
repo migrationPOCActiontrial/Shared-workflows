@@ -28,8 +28,8 @@ jobs:
       - name: Run Migration
         if: ${{ inputs.action == 'migrate' }}
         run: |
-          chmod +x ./scripts/migrationwithmain.sh
-          ./scripts/migrationwithmain.sh
+          chmod +x ./scripts/migrate.sh
+          ./scripts/migrate.sh
 
       - name: Run Verification
         if: ${{ inputs.action == 'verify' }}

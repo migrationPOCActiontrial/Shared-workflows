@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SOURCE_BASE="https://github.com/migrationPOCActiontrial"
-TARGET_BASE="https://github.com/migrationPOCAction"
+SOURCE_BASE="https://github.com/migrationPOCAction"
+TARGET_BASE="https://github.com/migrationPOCActiontrial"
 
 GIT_TOKEN="$1"
 

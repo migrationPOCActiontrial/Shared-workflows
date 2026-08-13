@@ -19,7 +19,7 @@ do
 
   cd "${repo}.git"
 
-  git remote set-url origin "$TARGET_BASE/${repo}.git"
+  git remote set-url origin "$TARGET_BASE/APP-15507-${repo}.git"
 
   git push --mirror
 

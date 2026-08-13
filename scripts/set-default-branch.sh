@@ -27,7 +27,7 @@ do
       -H "Authorization: Bearer ${GIT_TOKEN}" \
       -H "Accept: application/vnd.github+json" \
       -H "X-GitHub-Api-Version: 2022-11-28" \
-      "${TARGET_BASE}/${repo}" \
+      "${TARGET_BASE}/APP-15507-${repo}" \
       | grep '"default_branch"' \
       | head -1 \
       | sed 's/.*"default_branch": "\(.*\)".*/\1/')
@@ -46,7 +46,7 @@ do
       -H "Accept: application/vnd.github+json" \
       -H "Authorization: Bearer ${GIT_TOKEN}" \
       -H "X-GitHub-Api-Version: 2022-11-28" \
-      "${TARGET_BASE}/${repo}" \
+      "${TARGET_BASE}/APP-15507-${repo}" \
       -d '{"default_branch":"main"}'
 
     echo

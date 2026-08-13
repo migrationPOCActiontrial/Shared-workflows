@@ -5,14 +5,14 @@ SOURCE_BASE = "https://github.com/migrationPOCAction"
 TARGET_BASE = "https://github.com/migrationPOCActiontrial"
 
 REPOS = [
-    "spring-boot-inventory-system",
-    "payment-management-service",
-    "unique-springboot-repo",
-    "spring-boot-user-management",
-    "notification-service"
-    "spring-boot-order-service"
-    "spring-boot-product-catalog"
-    "spring-boot-demo-project"
+    "APP-15507-spring-boot-inventory-system",
+    "APP-15507-payment-management-service",
+    "APP-15507-unique-springboot-repo",
+    "APP-15507-spring-boot-user-management",
+    "APP-15507-notification-service"
+    "APP-15507-spring-boot-order-service"
+    "APP-15507-spring-boot-product-catalog"
+    "APP-15507-spring-boot-demo-project"
 ]
 
 
@@ -49,7 +49,7 @@ def get_refs(repo_url, ref_type):
 
 def verify_repo(repo):
     source_url = f"{SOURCE_BASE}/{repo}.git"
-    target_url = f"{TARGET_BASE}/APP-15507-{repo}.git"
+    target_url = f"{TARGET_BASE}/{repo}.git"
 
     print(f"\nChecking repository: {repo}")
 

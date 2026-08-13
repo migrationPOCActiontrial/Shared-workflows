@@ -10,6 +10,9 @@ REPOS = [
     "unique-springboot-repo",
     "spring-boot-user-management",
     "notification-service"
+    "spring-boot-order-service"
+    "spring-boot-product-catalog"
+    "spring-boot-demo-project"
 ]
 
 
@@ -46,7 +49,7 @@ def get_refs(repo_url, ref_type):
 
 def verify_repo(repo):
     source_url = f"{SOURCE_BASE}/{repo}.git"
-    target_url = f"{TARGET_BASE}/{repo}.git"
+    target_url = f"{TARGET_BASE}/APP-15507-{repo}.git"
 
     print(f"\nChecking repository: {repo}")
 

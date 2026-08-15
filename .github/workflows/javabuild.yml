@@ -1,0 +1,75 @@
+name: Shared Java Application Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: "Select repository to build"
+        required: true
+        type: choice
+        options:
+          - APP-15507-spring-boot-order-service
+          - APP-15507-notification-service
+          - APP-15507-spring-boot-inventory-system
+          - APP-15507-payment-management-service
+          - APP-15507-spring-boot-product-catalog
+          - APP-15507-spring-boot-demo-project
+          - APP-15507-spring-boot-user-management
+          - APP-15507-unique-springboot-repo
+
+      branch:
+        description: "Enter branch name to build"
+        required: true
+        type: string
+        default: "main"
+
+      maven_goal:
+        description: "Select Maven build option"
+        required: true
+        type: choice
+        default: "mvn clean package"
+        options:
+          - "mvn clean package"
+          - "mvn clean package -DskipTests"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Display build configuration
+        run: |
+          echo "Repository : ${{ inputs.repository }}"
+          echo "Branch     : ${{ inputs.branch }}"
+          echo "Maven Goal : ${{ inputs.maven_goal }}"
+
+      - name: Checkout selected repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/${{ inputs.repository }}
+          ref: ${{ inputs.branch }}
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Verify Java and Maven
+        run: |
+          java -version
+          mvn -version
+
+      - name: Build Java application
+        run: ${{ inputs.maven_goal }}
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.repository }}-${{ inputs.branch }}
+          path: target/*.jar

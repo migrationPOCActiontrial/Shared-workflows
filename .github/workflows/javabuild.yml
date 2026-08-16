@@ -3,6 +3,11 @@ name: Shared Java Build
 on:
   workflow_call:
     inputs:
+      branch:
+        description: "Branch to build"
+        required: true
+        type: string
+
       java-version:
         description: "Java version"
         required: false
@@ -23,8 +28,10 @@ jobs:
       contents: read
 
     steps:
-      - name: Checkout application
+      - name: Checkout selected branch
         uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -36,7 +43,7 @@ jobs:
       - name: Display build information
         run: |
           echo "Repository : ${{ github.repository }}"
-          echo "Branch     : ${{ github.ref_name }}"
+          echo "Branch     : ${{ inputs.branch }}"
           echo "Java       : ${{ inputs.java-version }}"
           echo "Maven goal : mvn ${{ inputs.maven-goal }}"
 
@@ -46,5 +53,5 @@ jobs:
       - name: Upload JAR
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.event.repository.name }}-${{ github.run_number }}
+          name: ${{ github.event.repository.name }}-${{ inputs.branch }}-${{ github.run_number }}
           path: target/*.jar

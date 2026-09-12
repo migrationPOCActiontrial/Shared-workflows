@@ -8,19 +8,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Create tags JSON
-        run: |
-          cat > tags.json <<EOF
-          {
-            "tags": [
-              "1.0.25",
-              "1.0.24",
-              "1.0.23",
-              "1.0.22"
-            ]
-          }
-          EOF
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Display available tags
+      - name: Read tags JSON
         run: |
-          cat tags.json
+          echo "Available Docker tags:"
+          cat deployment/tags.json
+
+      - name: Extract tags
+        run: |
+          jq -r '.tags[]' deployment/tags.json

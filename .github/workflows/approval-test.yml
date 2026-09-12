@@ -1,0 +1,26 @@
+name: Approval POC
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  before-approval:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Before approval
+        run: |
+          echo "This runs before approval"
+          echo "Waiting for approval..."
+
+  approval:
+    needs: before-approval
+    runs-on: ubuntu-latest
+    environment: approval-test
+
+    steps:
+      - name: After approval
+        run: |
+          echo "Approval received!"
+          echo "Continuing workflow..."

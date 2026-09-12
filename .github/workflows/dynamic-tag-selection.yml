@@ -1,0 +1,26 @@
+name: Dynamic Tag Selection POC
+
+on:
+  workflow_dispatch:
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create tags JSON
+        run: |
+          cat > tags.json <<EOF
+          {
+            "tags": [
+              "1.0.25",
+              "1.0.24",
+              "1.0.23",
+              "1.0.22"
+            ]
+          }
+          EOF
+
+      - name: Display available tags
+        run: |
+          cat tags.json

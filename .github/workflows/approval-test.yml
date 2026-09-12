@@ -1,26 +1,37 @@
-name: Approval POC
+name: Tag Approval POC
 
 on:
   workflow_dispatch:
 
 jobs:
 
-  before-approval:
+  prepare:
     runs-on: ubuntu-latest
 
+    outputs:
+      docker_tag: ${{ steps.tag.outputs.docker_tag }}
+
     steps:
-      - name: Before approval
+      - name: Set Docker tag
+        id: tag
         run: |
-          echo "This runs before approval"
-          echo "Waiting for approval..."
+          echo "docker_tag=1.0.25" >> "$GITHUB_OUTPUT"
 
   approval:
-    needs: before-approval
+    needs: prepare
     runs-on: ubuntu-latest
     environment: approval-test
 
     steps:
-      - name: After approval
+      - name: Show selected tag
         run: |
-          echo "Approval received!"
-          echo "Continuing workflow..."
+          echo "Docker tag waiting for approval: ${{ needs.prepare.outputs.docker_tag }}"
+
+  after-approval:
+    needs: [prepare, approval]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Use approved tag
+        run: |
+          echo "Approved Docker tag: ${{ needs.prepare.outputs.docker_tag }}"

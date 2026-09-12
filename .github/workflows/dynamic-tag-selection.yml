@@ -4,18 +4,43 @@ on:
   workflow_dispatch:
 
 jobs:
-  prepare:
+  select-tag:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Read tags JSON
+      - name: Read tags
+        id: tags
         run: |
-          echo "Available Docker tags:"
-          cat deployment/tags.json
-
-      - name: Extract tags
-        run: |
+          echo "Available tags:"
           jq -r '.tags[]' deployment/tags.json
+
+          choices=$(jq -c '.tags' deployment/tags.json)
+
+          echo "choices=$choices" >> "$GITHUB_OUTPUT"
+
+      - name: Select Docker Tag
+        id: interactive
+        uses: boasihq/interactive-inputs@v2
+        with:
+          title: "Select Docker Image Tag"
+          ngrok-authtoken: ${{ secrets.NGROK_AUTHTOKEN }}
+          github-token: ${{ github.token }}
+          timeout: 300
+          interactive: |
+            fields:
+              - label: docker-tag
+                properties:
+                  display: Select Docker Tag
+                  type: select
+                  description: Select the Docker image tag to deploy
+                  choices: ${{ steps.tags.outputs.choices }}
+                  required: true
+
+      - name: Show selected tag
+        run: |
+          echo "Selected Docker tag:"
+          echo "${{ steps.interactive.outputs.docker-tag }}"

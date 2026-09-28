@@ -7,11 +7,6 @@ repos=(
   spring-boot-inventory-system
   payment-management-service
   unique-springboot-repo
-  spring-boot-user-management
-  notification-service
-  spring-boot-order-service
-  spring-boot-product-catalog
-  spring-boot-demo-project
 )
 
 for repo in "${repos[@]}"
@@ -22,9 +17,9 @@ do
 
   cd "${repo}.git"
 
-  git remote set-url origin "$TARGET_BASE/APP-15507-${repo}.git"
-
-  git push --mirror
+  git push "$TARGET_BASE/app-15507-${repo}.git" \
+  'refs/heads/*:refs/heads/*' \
+  'refs/tags/*:refs/tags/*'
 
   cd ..
   rm -rf "${repo}.git"

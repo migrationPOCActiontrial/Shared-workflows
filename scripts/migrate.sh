@@ -3,7 +3,9 @@ set -euo pipefail
 
 SOURCE_BASE="https://github.com/migrationPOCAction"
 TARGET_BASE="https://github.com/migrationPOCActiontrial"
-BATCH_SIZE=2
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TAG_FILE="$SCRIPT_DIR/../config/tags.txt"
 
 repos=(
   spring-boot-inventory-system
@@ -11,26 +13,58 @@ repos=(
   unique-springboot-repo
 )
 
+if [[ ! -f "$TAG_FILE" ]]; then
+  echo "ERROR: Tag file not found: $TAG_FILE"
+  exit 1
+fi
+
+echo "Using tag configuration: $TAG_FILE"
+
 for repo in "${repos[@]}"
 do
+  echo "========================================"
   echo "Migrating ${repo} ..."
+  echo "========================================"
+
   target="$TARGET_BASE/app-15507-${repo}.git"
 
   git clone --mirror "$SOURCE_BASE/${repo}.git"
 
   cd "${repo}.git"
 
-  echo "Pushing branches ..."
-  git push "$target" 'refs/heads/*:refs/heads/*''
+  echo "Pushing all branches..."
 
-  echo "Pushing tags in batches of ${BATCH_SIZE} ..."
+  git push "$target" 'refs/heads/*:refs/heads/*'
 
-  git for-each-ref --format='%(refname):%(refname)' refs/tags \\
+  echo "Pushing selected tags..."
 
-    | xargs -n "$BATCH_SIZE" git push "$target"
+  while IFS= read -r tag
+  do
+    # Skip empty lines
+    [[ -z "$tag" ]] && continue
+
+    # Skip comments
+    [[ "$tag" =~ ^# ]] && continue
+
+    echo "Processing tag: $tag"
+
+    if git show-ref --tags --verify --quiet "refs/tags/$tag"; then
+      echo "Pushing tag: $tag"
+
+      git push "$target" \
+        "refs/tags/$tag:refs/tags/$tag"
+    else
+      echo "WARNING: Tag '$tag' does not exist in $repo. Skipping."
+    fi
+
+  done < "$TAG_FILE"
 
   cd ..
+
   rm -rf "${repo}.git"
 
-  echo "$repo migrated successfully"
+  echo "✅ $repo migrated successfully"
+  echo
 done
+
+echo "Migration completed successfully"

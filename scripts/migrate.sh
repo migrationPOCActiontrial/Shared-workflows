@@ -5,7 +5,7 @@ SOURCE_BASE="https://github.com/migrationPOCAction"
 TARGET_BASE="https://github.com/migrationPOCActiontrial"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TAG_FILE="$SCRIPT_DIR/../config/tags.txt"
+TAG_FILE="$SCRIPT_DIR/config/tags.txt"
 
 repos=(
   spring-boot-inventory-system
